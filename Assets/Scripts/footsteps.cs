@@ -1,3 +1,4 @@
+//Script para el sonido de andar
 using UnityEngine;
 
 public class footsteps : MonoBehaviour

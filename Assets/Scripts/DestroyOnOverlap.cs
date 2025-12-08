@@ -1,3 +1,4 @@
+//Script para coger el mapa del laberinto y que lo muestre en el canvas
 using UnityEngine;
 
 public class DestroyOnOverlap : MonoBehaviour

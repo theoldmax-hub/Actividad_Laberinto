@@ -1,3 +1,4 @@
+//Script que hace moverse al mapa
 using UnityEngine;
 
 public class MapMeshMovement : MonoBehaviour
@@ -15,7 +16,7 @@ public class MapMeshMovement : MonoBehaviour
       initialPosition = transform.position;  
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
         runningTime += Time.deltaTime;
