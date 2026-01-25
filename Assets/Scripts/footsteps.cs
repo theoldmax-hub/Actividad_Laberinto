@@ -1,19 +1,30 @@
 //Script para el sonido de andar
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class footsteps : MonoBehaviour
 {
+    private Vector2 moveInput;
     public AudioSource footstepsSound;
 
+    void OnMove(InputValue value)
+    {
+        moveInput = value.Get<Vector2>();
+    }
+    
     private void Update()
     {
-        if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S))
+        bool moving = moveInput.sqrMagnitude > 0.01f;
+
+        if (moving)
         {
-            footstepsSound.enabled = true;
+            if (!footstepsSound.isPlaying)
+                footstepsSound.Play();
         }
         else
         {
-            footstepsSound.enabled = false;
+            if (footstepsSound.isPlaying)
+                footstepsSound.Stop();
         }
     }
 }

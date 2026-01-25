@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class DestroyOnOverlap : MonoBehaviour
 {
-    public AudioSource Paper;
+    public AudioSource SoundEffect;
     public GameObject RawImagetoShow;
     private void OnTriggerEnter(Collider other)
     {
@@ -16,7 +16,7 @@ public class DestroyOnOverlap : MonoBehaviour
             }
 
             Destroy(gameObject);
-            Paper.enabled = true;
+            SoundEffect.enabled = true;
         }
     }
 }
