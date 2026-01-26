@@ -59,7 +59,7 @@ public class NI_PlayerMovement : MonoBehaviour
     private void OnLook(InputValue value)
     {
         lookInput = value.Get<Vector2>();
-        Debug.Log("LOOK: " + lookInput);
+       
     }
 
     void Update()

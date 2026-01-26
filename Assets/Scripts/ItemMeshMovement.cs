@@ -1,4 +1,4 @@
-//Script que hace moverse al mapa
+//Script que hace moverse al item
 using UnityEngine;
 
 public class MapMeshMovement : MonoBehaviour
