@@ -11,8 +11,10 @@ public class KeyDestroyOnOverlap : DestroyOnOverlap
         var inv = other.GetComponentInParent<PlayerInventory>();
         if (inv != null)
         {
-            inv.GiveKey(keyInHandPrefab);
+
+                inv.GiveKey(keyInHandPrefab);
+            
+            base.OnTriggerEnter(other);
         }
-        base.OnTriggerEnter(other);
     }
 }
