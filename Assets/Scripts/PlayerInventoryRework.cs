@@ -1,4 +1,6 @@
 using JetBrains.Annotations;
+using NUnit.Framework.Constraints;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.InputSystem;
@@ -22,14 +24,18 @@ public class PlayerInventoryRework : MonoBehaviour
     [SerializeField] Texture Key;
     [SerializeField] GameObject SwordObject;
     [SerializeField] GameObject KeyObject;
+    [SerializeField] AudioClip SwordSound;
+    [SerializeField] AudioClip KeySound;
     RawImage Image1;
     RawImage Image2;
     [Header("PickUp Logic")]
     [SerializeField] GameObject SwordItem; // Sword
     [SerializeField] GameObject KeyItem; // Key
     [SerializeField] LayerMask ItemLayer;
-    [Header("Player Controls")]
-    [SerializeField] float PickUpDistance = 5f;
+    [Header("Script Controls")]
+    [SerializeField] float PickUpDistance = 30f;
+    [SerializeField] AudioSource Speaker;
+    public bool hasKey = false;
     public static int selectedSlot = 1;
     public static int CurrentInventory1 = 0;
     public static int CurrentInventory2 = 0;
@@ -42,9 +48,66 @@ public class PlayerInventoryRework : MonoBehaviour
 
     void Update()
     {
-        Inventory1(1);
         InventoryController.GamePlay.InventorySelect.performed += ctx => ToggleSlot(ctx);
         InventoryController.GamePlay.Use.performed += ctx => Pickup();
+        if (selectedSlot == 1)
+        {
+            if(CurrentInventory1 == 0)
+                {
+                SwordObject.GetComponent<ParentConstraint>().weight = 0;
+                KeyObject.GetComponent<ParentConstraint>().weight = 0;
+            }
+            if (CurrentInventory1 == 1)
+            {
+                SwordObject.GetComponent<ParentConstraint>().weight = 1;
+                KeyObject.GetComponent<ParentConstraint>().weight = 0;
+            }
+            if (CurrentInventory1 == 2)
+            {
+                SwordObject.GetComponent<ParentConstraint>().weight = 0;
+                KeyObject.GetComponent<ParentConstraint>().weight = 1;
+                hasKey = true;
+            }
+        }
+        if (selectedSlot == 2)
+        {
+            if (CurrentInventory2 == 0)
+            {
+                SwordObject.GetComponent<ParentConstraint>().weight = 0;
+                KeyObject.GetComponent<ParentConstraint>().weight = 0;
+            }
+            if (CurrentInventory2 == 1)
+            {
+                SwordObject.GetComponent<ParentConstraint>().weight = 1;
+                KeyObject.GetComponent<ParentConstraint>().weight = 0;
+            }
+            if (CurrentInventory2 == 2)
+            {
+                SwordObject.GetComponent<ParentConstraint>().weight = 0;
+                KeyObject.GetComponent<ParentConstraint>().weight = 1;
+                hasKey = true;
+            }
+        }
+        if (selectedSlot == 3)
+        {
+            if (CurrentInventory3 == 0)
+            {
+                SwordObject.GetComponent<ParentConstraint>().weight = 0;
+                KeyObject.GetComponent<ParentConstraint>().weight = 0;
+            }
+            if (CurrentInventory3 == 1)
+            {
+                SwordObject.GetComponent<ParentConstraint>().weight = 1;
+                KeyObject.GetComponent<ParentConstraint>().weight = 0;
+            }
+            if (CurrentInventory3 == 2)
+            {
+                SwordObject.GetComponent<ParentConstraint>().weight = 0;
+                KeyObject.GetComponent<ParentConstraint>().weight = 1;
+                hasKey = true;
+            }
+        }
+
     }
     public void Inventory1(int Slot1)
     {
@@ -147,42 +210,19 @@ public class PlayerInventoryRework : MonoBehaviour
         Debug.Log(selectedSlot);
         switch (selectedSlot)
         {
-            case 0:
+            case 1:
                 if (CurrentInventory1 == 1) //Sword
                 {
+                    Speaker.PlayOneShot(SwordSound);
+                    Debug.Log("<color=yellow> Sword Sound");
                     SwordObject.GetComponent<ParentConstraint>().weight = 1;
                     KeyObject.GetComponent<ParentConstraint>().weight = 0;
                 }
                 else if (CurrentInventory1 == 2) //Key
                 {
-                    SwordObject.GetComponent<ParentConstraint>().weight = 0;
-                    KeyObject.GetComponent<ParentConstraint>().weight = 1;
-                }
-                else if (CurrentInventory1 == 3) //Key
-                {
-                    SwordObject.GetComponent<ParentConstraint>().weight = 0;
-                    KeyObject.GetComponent<ParentConstraint>().weight = 1;
-                }
-                else
-                {
-                    SwordObject.GetComponent<ParentConstraint>().weight = 0;
-                    KeyObject.GetComponent<ParentConstraint>().weight = 0;
-
-                }
-                break;
-            case 1:
-                if (CurrentInventory2 == 1) //Sword
-                {
-                    SwordObject.GetComponent<ParentConstraint>().weight = 1;
-                    KeyObject.GetComponent<ParentConstraint>().weight = 0;
-                }
-                else if (CurrentInventory2 == 2) //Key
-                {
-                    SwordObject.GetComponent<ParentConstraint>().weight = 0;
-                    KeyObject.GetComponent<ParentConstraint>().weight = 1;
-                }
-                else if (CurrentInventory2 == 3) //Key
-                {
+                    Speaker.PlayOneShot(KeySound);
+                    hasKey = true;
+                    Debug.Log("<color=yellow> Key Sound");
                     SwordObject.GetComponent<ParentConstraint>().weight = 0;
                     KeyObject.GetComponent<ParentConstraint>().weight = 1;
                 }
@@ -194,21 +234,46 @@ public class PlayerInventoryRework : MonoBehaviour
                 }
                 break;
             case 2:
+                if (CurrentInventory2 == 1) //Sword
+                {
+                    Speaker.PlayOneShot(SwordSound);
+                    Debug.Log("<color=yellow> Sword Sound");
+                    SwordObject.GetComponent<ParentConstraint>().weight = 1;
+                    KeyObject.GetComponent<ParentConstraint>().weight = 0;
+                }
+                else if (CurrentInventory2 == 2) //Key
+                {
+                    Speaker.PlayOneShot(KeySound);
+                    hasKey = true;
+                    Debug.Log("<color=yellow> Key Sound");
+                    SwordObject.GetComponent<ParentConstraint>().weight = 0;
+                    KeyObject.GetComponent<ParentConstraint>().weight = 1;
+                }
+
+                else
+                {
+                    SwordObject.GetComponent<ParentConstraint>().weight = 0;
+                    KeyObject.GetComponent<ParentConstraint>().weight = 0;
+
+                }
+                break;
+            case 3:
                 if (CurrentInventory3 == 1) //Sword
                 {
+                    Speaker.PlayOneShot(SwordSound);
+                    Debug.Log("<color=yellow> Sword Sound");
                     SwordObject.GetComponent<ParentConstraint>().weight = 1;
                     KeyObject.GetComponent<ParentConstraint>().weight = 0;
                 }
                 else if (CurrentInventory3 == 2) //Key
                 {
+                    Speaker.PlayOneShot(KeySound);
+                    hasKey = true;
+                    Debug.Log("<color=yellow> Key Sound");
                     SwordObject.GetComponent<ParentConstraint>().weight = 0;
                     KeyObject.GetComponent<ParentConstraint>().weight = 1;
                 }
-                else if (CurrentInventory3 == 3) //Key
-                {
-                    SwordObject.GetComponent<ParentConstraint>().weight = 0;
-                    KeyObject.GetComponent<ParentConstraint>().weight = 1;
-                }
+                
                 else
                 {
                     SwordObject.GetComponent<ParentConstraint>().weight = 0;
@@ -228,6 +293,9 @@ public class PlayerInventoryRework : MonoBehaviour
         {
             if (Hit.collider.gameObject == SwordItem)
             {
+                Destroy(Hit.collider.transform.parent.gameObject);
+                Debug.Log("<color=yellow> Sword Sound");
+                Speaker.PlayOneShot(SwordSound);
                 if (selectedSlot == 1)
                 {
                     Inventory1(1);
@@ -247,6 +315,10 @@ public class PlayerInventoryRework : MonoBehaviour
             }
             else if (Hit.collider.gameObject == KeyItem)
             {
+                Destroy(Hit.collider.transform.parent.gameObject);
+
+                Debug.Log("<color=yellow> Key Sound");
+                Speaker.PlayOneShot(KeySound);
                 if (selectedSlot == 1)
                 {
                     Inventory1(2);
@@ -259,10 +331,26 @@ public class PlayerInventoryRework : MonoBehaviour
                 }
                 else if (selectedSlot == 3)
                 {
-                    Inventory3(1);
+                    Inventory3(2);
 
                 }
             }
+        }
+    }
+    public void ConsumeKey()
+    {
+        hasKey = false;
+        if (CurrentInventory1 == 2)
+        {
+            Inventory1(0);
+        }
+        else if (CurrentInventory2 == 2)
+        {
+            Inventory2(0);
+        }
+        else if (CurrentInventory3 == 2)
+        {
+            Inventory3(0);
         }
     }
 }

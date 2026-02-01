@@ -8,12 +8,12 @@ public class OpenDoors : MonoBehaviour
     public LayerMask hitMask = ~0;
     public Transform rayOrigin;
 
-    private PlayerInventory inv;
+    private PlayerInventoryRework inv;
 
     private void Awake()
     {
-        inv = GetComponent<PlayerInventory>();
-        if (inv == null) inv = GetComponentInParent<PlayerInventory>();
+        inv = GetComponent<PlayerInventoryRework>();
+        if (inv == null) inv = GetComponentInParent<PlayerInventoryRework>();
     }
     void OnUse(InputValue value)
     {
