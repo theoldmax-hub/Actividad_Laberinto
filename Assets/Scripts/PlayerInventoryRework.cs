@@ -42,6 +42,7 @@ public class PlayerInventoryRework : MonoBehaviour
     public static int CurrentInventory3 = 0;
     void Start()
     {
+        Inventory1(1);
         InventoryController = new PlayerControls();
         InventoryController.Enable();
     }
@@ -352,5 +353,22 @@ public class PlayerInventoryRework : MonoBehaviour
         {
             Inventory3(0);
         }
+    }
+    public int CheckHand()
+    {
+        if (SwordObject.GetComponent<ParentConstraint>().weight == 1)
+        {
+            return 1; //devuelve Espada
+        }
+        else if (KeyObject.GetComponent<ParentConstraint>().weight == 1)
+        {
+            return 2; // Devuelve Llave
+        }
+        else
+        {
+            return 0; //Devuelve que no tiene nada
+        }
+        
+        
     }
 }
