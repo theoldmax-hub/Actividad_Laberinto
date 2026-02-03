@@ -5,15 +5,17 @@ public class DaggerCollision : MonoBehaviour
     [SerializeField] CombatSystemScript PlayerInformation;
     [SerializeField] GameObject Player;
     [SerializeField] float KnockbackForce = 10f;
+    [SerializeField] Animator animatora;
     Animator animator;
     private void Start()
     {
-        Animator animator = GetComponent<Animator>();
+        animator = animatora.GetComponent<Animator>();
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Enemy") && animator.GetBool("Attack"))
         {
+            Debug.Log("Ouch!");
             int EnemyHealth = other.GetComponent<CombatSystemScript>().HealthPoints;
             EnemyHealth -= PlayerInformation.AttackPower;
             other.GetComponent<CombatSystemScript>().HealthPoints = EnemyHealth;
