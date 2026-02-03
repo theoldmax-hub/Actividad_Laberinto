@@ -40,9 +40,14 @@ public class PlayerInventoryRework : MonoBehaviour
     public static int CurrentInventory1 = 0;
     public static int CurrentInventory2 = 0;
     public static int CurrentInventory3 = 0;
+    [Header("Debug Options")]
+    [SerializeField] bool StartWithSword = false;
     void Start()
     {
-        Inventory1(1);
+        if (StartWithSword)
+        {
+            Inventory1(1);
+        }
         InventoryController = new PlayerControls();
         InventoryController.Enable();
     }
