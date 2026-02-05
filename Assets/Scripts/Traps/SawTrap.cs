@@ -22,6 +22,9 @@ public class SawTrap : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            PlayerInventoryRework.CurrentInventory1 = 0;
+            PlayerInventoryRework.CurrentInventory2 = 0;
+            PlayerInventoryRework.CurrentInventory3 = 0;
         }
     }
     private void Update()
