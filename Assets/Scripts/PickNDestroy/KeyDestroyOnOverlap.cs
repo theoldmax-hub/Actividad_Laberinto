@@ -8,9 +8,6 @@ public class KeyDestroyOnOverlap : DestroyOnOverlap
     {
         if (!other.CompareTag("Player")) return;
 
-        Score score = other.GetComponent<Score>();
-        score.points = score.points + 10;
-
         var inv = other.GetComponentInParent<PlayerInventory>();
         if (inv != null)
         {
