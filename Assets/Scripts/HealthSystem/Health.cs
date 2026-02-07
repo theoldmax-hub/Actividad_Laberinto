@@ -30,6 +30,7 @@ public class Health : MonoBehaviour, IHealth, IHealable, IDamageable
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
 
         if (currentHealth <= 0) OnDied?.Invoke(source);
+        
     }
 
     public void Heal(float amount, object source = null)
