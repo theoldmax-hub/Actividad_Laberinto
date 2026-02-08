@@ -27,6 +27,15 @@ public class SawTrap : MonoBehaviour
             damageable.TakeDamage(damage,source: gameObject);  
         }
     }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (TryGetDamageable(other,out IDamageable damageable))
+        {
+            damageable.TakeDamage(damage * Time.deltaTime,source: gameObject);
+        }
+    }
+
     private void Update()
     {
         RotateSaw();
