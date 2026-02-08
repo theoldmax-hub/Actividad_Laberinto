@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -38,7 +39,7 @@ public class CombatSystemScript : MonoBehaviour
     }
     private void Attack()
     {
-        Debug.Log("Condition Passed");
+        //Debug.Log("Condition Passed");
         weaponAnim.SetBool("Attack", true);
     }
 }
