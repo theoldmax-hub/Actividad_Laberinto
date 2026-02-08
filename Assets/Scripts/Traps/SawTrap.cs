@@ -3,6 +3,9 @@ using UnityEngine.SceneManagement;
 
 public class SawTrap : MonoBehaviour
 {
+    [Header("Damage")]
+    public float damage = 10f;
+    
     [Header("Rotation")]
     public float rotationSpeed = 360f;
 
@@ -19,11 +22,20 @@ public class SawTrap : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (TryGetDamageable(other, out IDamageable damageable))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            damageable.TakeDamage(damage,source: gameObject);  
         }
     }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (TryGetDamageable(other,out IDamageable damageable))
+        {
+            damageable.TakeDamage(damage * Time.deltaTime,source: gameObject);
+        }
+    }
+
     private void Update()
     {
         RotateSaw();
@@ -40,4 +52,20 @@ public class SawTrap : MonoBehaviour
 
         transform.localPosition = new Vector3(startPosition.x + xOffset, startPosition.y, startPosition.z);
     }
+
+    private bool TryGetDamageable(Collider col, out IDamageable damageable)
+    {
+        foreach (var mb in col.GetComponentsInParent<MonoBehaviour>())
+        {
+            if (mb is IDamageable d)
+            {
+                damageable = d;
+                return true;
+            }
+
+        }
+        damageable = null;
+       return false;
+    }
+
 }
