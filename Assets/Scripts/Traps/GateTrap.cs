@@ -29,6 +29,9 @@ public class GateTrap : MonoBehaviour
         if (oneShot && triggered)
             return;
 
+        Score score = other.GetComponent<Score>();
+        score.points = score.points - 1;
+
         // Activar
         active = true;
         triggered = true;
