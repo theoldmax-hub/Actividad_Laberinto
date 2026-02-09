@@ -15,16 +15,17 @@ public class DaggerCollision : MonoBehaviour
  
     private void OnTriggerStay(Collider other)
     {
-        if (TryGetDamageable(other, out IDamageable damageable) && animator.GetBool("Attack") && canDamage)
+        if (TryGetDamageable(other, out IDamageable damageable) && animator.GetBool("Attack") && canDamage && other.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("Ouch!");
-            canDamage = false;
-            Rigidbody knockback = other.GetComponent<Rigidbody>();
-            damageable.TakeDamage((float)PlayerInformation.AttackPower, Player);
-            if (knockback != null)
-            {
-                knockback.AddForce(Player.transform.forward * KnockbackForce, ForceMode.Impulse);
-            }
+                Debug.Log("Ouch!");
+                canDamage = false;
+                Rigidbody knockback = other.GetComponent<Rigidbody>();
+                damageable.TakeDamage((float)PlayerInformation.AttackPower, Player);
+                if (knockback != null)
+                {
+                    knockback.AddForce(Player.transform.forward * KnockbackForce, ForceMode.Impulse);
+                }
+
         }
 
     }

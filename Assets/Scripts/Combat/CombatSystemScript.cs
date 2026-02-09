@@ -13,8 +13,6 @@ public class CombatSystemScript : MonoBehaviour
     [Header("Player Configuration")]
     [SerializeField] PlayerInventoryRework Inventario;
     [SerializeField] GameObject Hand;
-    [Header("Enemy Configuration")]
-    [SerializeField] GameObject TouchAttackRadius;
     private Animator weaponAnim;
     void Start()
     {
@@ -35,7 +33,6 @@ public class CombatSystemScript : MonoBehaviour
             
             Controls.GamePlay.Attack.performed += ctx => Attack();
         }
-        
     }
     private void Attack()
     {
