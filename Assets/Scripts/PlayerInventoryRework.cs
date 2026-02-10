@@ -34,7 +34,7 @@ public class PlayerInventoryRework : MonoBehaviour
     [SerializeField] GameObject KeyItem; // Key
     [SerializeField] LayerMask ItemLayer;
     [Header("Script Controls")]
-    [SerializeField] float PickUpDistance = 30f;
+    [SerializeField] float radio = 1f;
     [SerializeField] AudioSource Speaker;
     public bool hasKey = false;
     public static int selectedSlot = 1;
@@ -290,7 +290,7 @@ public class PlayerInventoryRework : MonoBehaviour
     private void Pickup()
     {
         //if (Physics.Raycast(transform.position, transform.forward, out RaycastHit Hit, PickUpDistance, ItemLayer))
-        Collider[] colliders = Physics.OverlapSphere(transform.position, 1f);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, radio);
         for (int i = 0; i < colliders.Length; i++)
         {
             if (colliders[i].gameObject == SwordItem)
