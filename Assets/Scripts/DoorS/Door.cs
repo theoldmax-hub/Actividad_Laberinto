@@ -11,6 +11,8 @@ public class Door : MonoBehaviour
     public float openYAngle = 195f;
     public float speed = 2f;
 
+    Score score;
+
     private Quaternion closedRotation;
     private Quaternion openRotation;
 
@@ -37,6 +39,8 @@ public class Door : MonoBehaviour
     {
         Debug.Log("Door.Open() llamado en " + name);
         isOpen = true;
+        score = GameObject.FindGameObjectWithTag("Player").GetComponent<Score>();
+        score.AddPoints(1);
         doorSound.Play();
     }
     public void Close() => isOpen = false;

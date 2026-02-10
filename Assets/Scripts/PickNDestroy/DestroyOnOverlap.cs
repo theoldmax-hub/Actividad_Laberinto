@@ -10,7 +10,7 @@ public class DestroyOnOverlap : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Score score = other.GetComponent<Score>();
-            score.points = score.points + 1;
+            score.AddPoints(1);
 
             if (RawImagetoShow != null)
             {

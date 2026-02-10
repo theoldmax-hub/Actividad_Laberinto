@@ -1,4 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
+using TMPro;
+using System.Collections;
 
 public class GateTrap : MonoBehaviour
 {
@@ -8,12 +11,16 @@ public class GateTrap : MonoBehaviour
     public float rotateAmount = -180f;
     [Header("Trigger")]
     public bool oneShot = true;
+    [Header("Delay")]
+    public float delay = 3f;
+    public TextMeshProUGUI countdown;
     private bool active;
     private bool triggered;
     private float rotated;
     private void Awake()
     {
         if (gate == null) gate = transform;
+        countdown.gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -29,8 +36,8 @@ public class GateTrap : MonoBehaviour
         if (oneShot && triggered)
             return;
 
-        Score score = other.GetComponent<Score>();
-        score.points = score.points - 1;
+        Score score = GameObject.FindGameObjectWithTag("Player").GetComponent<Score>();
+        score.RemovePoints(1);
 
         // Activar
         active = true;
@@ -64,7 +71,27 @@ public class GateTrap : MonoBehaviour
         if (rotated >= total - 0.0001f)
         {
             active = false;
+            StartCoroutine(Reload());
             Debug.Log("GateTrap FINISHED");
         }
+    }
+
+    public IEnumerator Reload()
+    {
+        float timeLeft = delay;
+        countdown.gameObject.SetActive(true);
+
+        while (timeLeft > 0)
+        {
+            countdown.text = "Estas atrapado. Se reiniciara en: " + Mathf.Ceil(timeLeft).ToString();
+            yield return new WaitForSeconds(1f);
+            timeLeft--;
+        }
+
+        countdown.text = "0";
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        PlayerInventoryRework.CurrentInventory1 = 0;
+        PlayerInventoryRework.CurrentInventory2 = 0;
+        PlayerInventoryRework.CurrentInventory3 = 0;
     }
 }
