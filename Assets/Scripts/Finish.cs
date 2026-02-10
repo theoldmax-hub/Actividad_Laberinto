@@ -15,5 +15,7 @@ public class Finish : MonoBehaviour
     {
         finishSound.enabled = true;
         Victory.SetActive(true);
+        Score score = GameObject.FindGameObjectWithTag("Player").GetComponent<Score>();
+        score.AddPoints(1);
     }
 }

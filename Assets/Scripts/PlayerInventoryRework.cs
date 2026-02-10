@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.InputSystem;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class PlayerInventoryRework : MonoBehaviour
@@ -288,12 +289,16 @@ public class PlayerInventoryRework : MonoBehaviour
     
     private void Pickup()
     {
-        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit Hit, PickUpDistance, ItemLayer))
+        //if (Physics.Raycast(transform.position, transform.forward, out RaycastHit Hit, PickUpDistance, ItemLayer))
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 1f);
+        for (int i = 0; i < colliders.Length; i++)
         {
-            if (Hit.collider.gameObject == SwordItem)
+            if (colliders[i].gameObject == SwordItem)
             {
-                Destroy(Hit.collider.transform.parent.gameObject);
+                Destroy(colliders[i].transform.parent.gameObject);
                 Speaker.PlayOneShot(SwordSound);
+                Score score = GameObject.FindGameObjectWithTag("Player").GetComponent<Score>();
+                score.AddPoints(1);
                 if (selectedSlot == 1)
                 {
                     Inventory1(1);
@@ -311,11 +316,13 @@ public class PlayerInventoryRework : MonoBehaviour
                 }
 
             }
-            else if (Hit.collider.gameObject == KeyItem)
+            else if (colliders[i].gameObject == KeyItem)
             {
-                Destroy(Hit.collider.transform.parent.gameObject);
-
+                Destroy(colliders[i].transform.parent.gameObject);
                 Speaker.PlayOneShot(KeySound);
+                Score score = GameObject.FindGameObjectWithTag("Player").GetComponent<Score>();
+                score.AddPoints(1);
+
                 if (selectedSlot == 1)
                 {
                     Inventory1(2);
