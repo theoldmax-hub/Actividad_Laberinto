@@ -128,4 +128,13 @@ public class NI_PlayerMovement : MonoBehaviour
             cameraPivot.localRotation = Quaternion.Euler(pitch, 0f, 0f);
         }
     }
+    public float GetVerticalVelocity()
+    {
+        return verticalVelocity;
+    }
+
+    public bool GetIsGrounded()
+    {
+        return characterController.isGrounded;
+    }
 }
