@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,16 +16,28 @@ public class SawTrap : MonoBehaviour
 
     private Vector3 startPosition;
 
+    [Header("ParticleSystem")]
+    public ParticleSystem bloodFX;
+
+    private HashSet<IDamageable> inside = new HashSet<IDamageable>();
+
     private void Start()
     {
-
+        if (bloodFX != null) bloodFX.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        
         startPosition = transform.localPosition;
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (TryGetDamageable(other, out IDamageable damageable))
         {
-            damageable.TakeDamage(damage,source: gameObject);  
+            damageable.TakeDamage(damage, source: gameObject);
+
+            if (inside.Add(damageable) && bloodFX != null) {
+                Debug.Log("damageable ADDED");
+                bloodFX.Play();
+            }
         }
     }
 
@@ -32,8 +45,24 @@ public class SawTrap : MonoBehaviour
     {
         if (TryGetDamageable(other,out IDamageable damageable))
         {
+
+            //if (bloodFX != null) bloodFX.Play();
+            
             damageable.TakeDamage(damage * Time.deltaTime,source: gameObject);
         }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (TryGetDamageable(other, out IDamageable damageable))
+        {
+            inside.Remove(damageable);
+
+            if (inside.Count == 0 && bloodFX != null) { 
+            bloodFX.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            }
+        }
+
     }
 
     private void Update()
