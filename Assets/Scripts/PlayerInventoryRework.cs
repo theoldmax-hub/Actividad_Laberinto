@@ -298,7 +298,7 @@ public class PlayerInventoryRework : MonoBehaviour
                 Destroy(colliders[i].transform.parent.gameObject);
                 Speaker.PlayOneShot(SwordSound);
                 Score score = GameObject.FindGameObjectWithTag("Player").GetComponent<Score>();
-                score.AddPoints(1);
+                score.AddPoints(10);
                 if (selectedSlot == 1)
                 {
                     Inventory1(1);

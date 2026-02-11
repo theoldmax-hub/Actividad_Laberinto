@@ -25,6 +25,8 @@ public class Health : MonoBehaviour, IHealth, IHealable, IDamageable
     {
         if (!isAlive) return;
         if (amount <= 0) return;
+        Score score = GameObject.FindGameObjectWithTag("Player").GetComponent<Score>();
+        score.RemovePoints(1);
 
         currentHealth = Mathf.Max(0f, currentHealth - amount);
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
@@ -41,4 +43,5 @@ public class Health : MonoBehaviour, IHealth, IHealable, IDamageable
         currentHealth = Mathf.Min(maxHealth, currentHealth +  amount);
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
     }
+    public bool CompareHealth() { if (currentHealth == maxHealth) return true; else return false; }
 }

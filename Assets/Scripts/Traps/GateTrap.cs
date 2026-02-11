@@ -12,7 +12,7 @@ public class GateTrap : MonoBehaviour
     [Header("Trigger")]
     public bool oneShot = true;
     [Header("Delay")]
-    public float delay = 3f;
+    public float delay = 5f;
     public TextMeshProUGUI countdown;
     private bool active;
     private bool triggered;
@@ -37,7 +37,7 @@ public class GateTrap : MonoBehaviour
             return;
 
         Score score = GameObject.FindGameObjectWithTag("Player").GetComponent<Score>();
-        score.RemovePoints(1);
+        score.RemovePoints(20);
 
         // Activar
         active = true;
@@ -83,12 +83,10 @@ public class GateTrap : MonoBehaviour
 
         while (timeLeft > 0)
         {
-            countdown.text = "Estas atrapado. Se reiniciara en: " + Mathf.Ceil(timeLeft).ToString();
+            countdown.text = "It will restart at: " + Mathf.Ceil(timeLeft).ToString();
             yield return new WaitForSeconds(1f);
             timeLeft--;
         }
-
-        countdown.text = "0";
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         PlayerInventoryRework.CurrentInventory1 = 0;
         PlayerInventoryRework.CurrentInventory2 = 0;

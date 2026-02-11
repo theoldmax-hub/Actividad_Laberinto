@@ -40,7 +40,7 @@ public class Door : MonoBehaviour
         Debug.Log("Door.Open() llamado en " + name);
         isOpen = true;
         score = GameObject.FindGameObjectWithTag("Player").GetComponent<Score>();
-        score.AddPoints(1);
+        score.AddPoints(10);
         doorSound.Play();
     }
     public void Close() => isOpen = false;

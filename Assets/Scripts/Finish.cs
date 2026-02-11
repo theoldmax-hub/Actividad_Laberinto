@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 
 public class Finish : MonoBehaviour
@@ -15,7 +14,12 @@ public class Finish : MonoBehaviour
     {
         finishSound.enabled = true;
         Victory.SetActive(true);
-        Score score = GameObject.FindGameObjectWithTag("Player").GetComponent<Score>();
-        score.AddPoints(1);
+
+        Health health = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
+        if (health.CompareHealth())
+        {
+            Score score = GameObject.FindGameObjectWithTag("Player").GetComponent<Score>();
+            score.AddPoints(100);
+        }
     }
 }
