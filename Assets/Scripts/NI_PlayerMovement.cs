@@ -30,6 +30,7 @@ public class NI_PlayerMovement : MonoBehaviour
     private Vector2 lookInput;
     private float pitch;
 
+    public bool allowCursorLock = true;
 
     private void Awake()
     {
@@ -37,8 +38,11 @@ public class NI_PlayerMovement : MonoBehaviour
     }
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        if (allowCursorLock)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
     void OnMove(InputValue value)
     {
@@ -64,17 +68,19 @@ public class NI_PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        
-        if (Mouse.current.leftButton.wasPressedThisFrame)
-        {
+       if(allowCursorLock) 
+        {  
+          if (Mouse.current.leftButton.wasPressedThisFrame)
+          {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-        }
+          }
 
-        if (Keyboard.current.escapeKey.wasPressedThisFrame)
-        {
+          if (Keyboard.current.escapeKey.wasPressedThisFrame)
+          {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+          }
         }
         ApplyGroundingAndGravity();
         MoveCharacter();
