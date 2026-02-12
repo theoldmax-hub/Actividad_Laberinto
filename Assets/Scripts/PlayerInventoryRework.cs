@@ -34,7 +34,7 @@ public class PlayerInventoryRework : MonoBehaviour
     [SerializeField] GameObject KeyItem; // Key
     [SerializeField] LayerMask ItemLayer;
     [Header("Script Controls")]
-    [SerializeField] float radio = 1f;
+    [SerializeField] float radio = 1.5f;
     [SerializeField] AudioSource Speaker;
     public bool hasKey = false;
     public static int selectedSlot = 1;

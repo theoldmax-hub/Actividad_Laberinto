@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class Health : MonoBehaviour, IHealth, IHealable, IDamageable
 {
@@ -12,6 +13,8 @@ public class Health : MonoBehaviour, IHealth, IHealable, IDamageable
     public event System.Action<float, float> OnHealthChanged;
     public event System.Action<object> OnDied;
 
+    private bool receivedDamage;
+
     private void Awake()
     {
         currentHealth = Mathf.Clamp(
@@ -19,20 +22,34 @@ public class Health : MonoBehaviour, IHealth, IHealable, IDamageable
         );
 
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
+        receivedDamage = true;
     }
 
    public void TakeDamage (float amount, object source = null)
     {
         if (!isAlive) return;
         if (amount <= 0) return;
-        Score score = GameObject.FindGameObjectWithTag("Player").GetComponent<Score>();
-        score.RemovePoints(1);
 
         currentHealth = Mathf.Max(0f, currentHealth - amount);
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
 
         if (currentHealth <= 0) OnDied?.Invoke(source);
         
+        Health health = GetComponent<Health>();
+
+        if (health.tag == "Player" && receivedDamage)
+        {
+            receivedDamage = false;
+            Score score = GameObject.FindGameObjectWithTag("Player").GetComponent<Score>();
+            score.RemovePoints(1);
+            StartCoroutine(DamageCooldown(1));
+        }
+
+        if (health.tag == "Enemy")
+        {
+            Score score = GameObject.FindGameObjectWithTag("Player").GetComponent<Score>();
+            score.AddPoints(1);
+        }
     }
 
     public void Heal(float amount, object source = null)
@@ -44,4 +61,10 @@ public class Health : MonoBehaviour, IHealth, IHealable, IDamageable
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
     }
     public bool CompareHealth() { if (currentHealth == maxHealth) return true; else return false; }
+
+    IEnumerator DamageCooldown(float sec)
+    {
+        yield return new WaitForSeconds(sec);
+        receivedDamage = true;
+    }
 }

@@ -83,7 +83,7 @@ public class GateTrap : MonoBehaviour
 
         while (timeLeft > 0)
         {
-            countdown.text = "It will restart at: " + Mathf.Ceil(timeLeft).ToString();
+            countdown.text = "You fall in a trap. It will restart at: " + Mathf.Ceil(timeLeft).ToString();
             yield return new WaitForSeconds(1f);
             timeLeft--;
         }
