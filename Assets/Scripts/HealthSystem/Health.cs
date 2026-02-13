@@ -67,4 +67,9 @@ public class Health : MonoBehaviour, IHealth, IHealable, IDamageable
         yield return new WaitForSeconds(sec);
         receivedDamage = true;
     }
+    public void ResetToFull()
+    {
+        currentHealth = maxHealth;
+        OnHealthChanged?.Invoke(currentHealth, maxHealth);
+    }
 }

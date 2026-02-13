@@ -17,6 +17,8 @@ public class GateTrap : MonoBehaviour
     private bool active;
     private bool triggered;
     private float rotated;
+
+    [SerializeField] CharacterDeathHandle deathHandler;
     private void Awake()
     {
         if (gate == null) gate = transform;
@@ -83,13 +85,11 @@ public class GateTrap : MonoBehaviour
 
         while (timeLeft > 0)
         {
-            countdown.text = "You fall in a trap. It will restart at: " + Mathf.Ceil(timeLeft).ToString();
+            countdown.text = "You fall in a trap. You will respawn at: " + Mathf.Ceil(timeLeft).ToString();
             yield return new WaitForSeconds(1f);
             timeLeft--;
         }
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        PlayerInventoryRework.CurrentInventory1 = 0;
-        PlayerInventoryRework.CurrentInventory2 = 0;
-        PlayerInventoryRework.CurrentInventory3 = 0;
+      deathHandler.RestartGame();
+      countdown.gameObject.SetActive(false);
     }
 }

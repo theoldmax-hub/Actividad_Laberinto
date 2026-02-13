@@ -7,6 +7,7 @@ public class CharacterDeathHandle : MonoBehaviour
     [Header("References&Options")]
     public Health playerHealth;
     public GameObject deathPanel;
+    public Transform respawnPoint;
 
     public PlayerInput playerInputToDisable;
     public bool pauseOnDeath = false;
@@ -16,7 +17,8 @@ public class CharacterDeathHandle : MonoBehaviour
     private void Awake()
     {
         if (playerHealth == null) playerHealth = GetComponent<Health>();
-        if (playerInputToDisable == null) playerInputToDisable = GetComponent<PlayerInput>(); 
+        if (playerInputToDisable == null) playerInputToDisable = GetComponent<PlayerInput>();
+        if (deathPanel != null) deathPanel.SetActive(false);
     }
 
     private void OnEnable()
@@ -51,9 +53,30 @@ public class CharacterDeathHandle : MonoBehaviour
 
     public void RestartGame()
     {
-        Debug.Log("Restart pressed");
+        if (respawnPoint == null) return;
+
+        if (deathPanel != null) deathPanel.SetActive(false);
+
+        var movement = GetComponent<NI_PlayerMovement>();
+        if (movement != null) movement.allowCursorLock = true;
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        if (playerInputToDisable != null) playerInputToDisable.enabled = true;
+
+        var cc = GetComponent<CharacterController>();
+        if (cc != null) cc.enabled = false;
+
+        transform.position = respawnPoint.position;
+        transform.rotation = respawnPoint.rotation;
+
+        if (cc != null) cc.enabled = true;
+
+        if (playerHealth != null) playerHealth.ResetToFull();
+
+        dead = false;
         Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void QuitGame()
