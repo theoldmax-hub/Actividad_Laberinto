@@ -371,7 +371,11 @@ public class PlayerInventoryRework : MonoBehaviour
         {
             return 0; //Devuelve que no tiene nada
         }
-        
-        
+    }
+    public void ResetInventory()
+    {
+        Inventory1(0);
+        Inventory2(0);
+        Inventory3(0);
     }
 }
